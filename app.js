@@ -7,7 +7,7 @@ const Player = require('./models/player');
 app.use(express.json());
 
 // connect to mongoose
-mongoose.connect('mongodb://localhost/cricket', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/cricket', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 // home getRequest
@@ -89,5 +89,10 @@ app.delete('/api/players/:_id', (req, res) => {
   })
 })
 
-app.listen(3000);
-console.log('Running Cricket site on port 3000...');
+// const server = app.listen(process.env.PORT || 3000, () => {
+//   const port = server.address().port;
+//   console.log('Running Cricket site on port 3000...');
+// });
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on ${port}`));
